@@ -6,7 +6,7 @@ class user(Base):
     __tablename__="user"
     user_id= Column(Integer, primary_key=True)
     email = Column(String(50),nullable=False)
-    publications  = relationship("category", secondary=user_publication, back_populates="users")
+    publications  = relationship("publication", secondary=user_publication, back_populates="users")
     __mapper_arg__={
         "polymorphic_identity" : "user"
     }

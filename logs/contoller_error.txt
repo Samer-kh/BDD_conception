@@ -14,3 +14,4 @@
 [SQL: INSERT INTO periodics (periodic_id, volume, publisher, edition, book_shop, cost_id) VALUES (%s, %s, %s, %s, %s, %s)]
 [parameters: (5, 2, 'les blues', '1998', 'ecl librery', '2')]
 (Background on this error at: https://sqlalche.me/e/14/gkpj)
+ 'title'

@@ -7,6 +7,7 @@ from controllers.book_category_controlleur import app_publication_book_cat
 from controllers.category_controlleur import app_publication_cat
 from controllers.cost_controlleurs import app_publication_cost
 from controllers.user_controlleur import app_publication_user
+from controllers.user_publication_controlleur import *
 app = Flask(__name__)             # create an app instance
 app.register_blueprint(app_publication)
 app.register_blueprint(app_publication_author)
@@ -16,5 +17,6 @@ app.register_blueprint(app_publication_book_cat)
 app.register_blueprint(app_publication_cat)
 app.register_blueprint(app_publication_cost)
 app.register_blueprint(app_publication_user)
+app.register_blueprint(app_publication_user_publication)
 if __name__ == "__main__":        # on running python app.py
     app.run() 

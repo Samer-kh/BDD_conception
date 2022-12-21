@@ -29,3 +29,5 @@
 [SQL: INSERT INTO cost (value, currancy) VALUES (%s, %s)]
 [parameters: (3.5, 'dollar')]
 (Background on this error at: https://sqlalche.me/e/14/e3q8)
+ Could not determine join condition between parent/child tables on relationship user.publications - there are no foreign keys linking these tables via secondary table 'user_publication'.  Ensure that referencing columns are associated with a ForeignKey or ForeignKeyConstraint, or specify 'primaryjoin' and 'secondaryjoin' expressions.
+ Could not determine join condition between parent/child tables on relationship user.publications - there are no foreign keys linking these tables via secondary table 'user_publication'.  Ensure that referencing columns are associated with a ForeignKey or ForeignKeyConstraint, or specify 'primaryjoin' and 'secondaryjoin' expressions.
