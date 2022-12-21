@@ -1,0 +1,2 @@
+add_author() takes 0 positional arguments but 1 was givenadd_author() takes 0 positional arguments but 1 was given
+ Session.get() missing 1 required positional argument: 'ident'

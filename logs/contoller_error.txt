@@ -1,0 +1,16 @@
+
+ This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (MySQLdb.IntegrityError) (1452, 'Cannot add or update a child row: a foreign key constraint fails (`bibliotheque`.`regularbooks`, CONSTRAINT `regularbooks_ibfk_2` FOREIGN KEY (`cost_id`) REFERENCES `cost` (`cost_id`))')
+[SQL: INSERT INTO regularbooks (`ISBN`, title, publisher, edition, book_shop, cost_id) VALUES (%s, %s, %s, %s, %s, %s)]
+[parameters: (1, 'les mérables', 'yamama', '2017', 'the shop', '3')]
+(Background on this error at: https://sqlalche.me/e/14/gkpj) (Background on this error at: https://sqlalche.me/e/14/7s2a)
+ (MySQLdb.IntegrityError) (1452, 'Cannot add or update a child row: a foreign key constraint fails (`bibliotheque`.`regularbooks`, CONSTRAINT `regularbooks_ibfk_2` FOREIGN KEY (`cost_id`) REFERENCES `cost` (`cost_id`))')
+[SQL: INSERT INTO regularbooks (`ISBN`, title, publisher, edition, book_shop, cost_id) VALUES (%s, %s, %s, %s, %s, %s)]
+[parameters: (3, 'les lazys', 'les blues', '1998', 'ecl librery', '3')]
+(Background on this error at: https://sqlalche.me/e/14/gkpj)
+ 'title'
+ add_periodics() takes 6 positional arguments but 7 were given
+ add_periodics() takes 6 positional arguments but 7 were given
+ (MySQLdb.IntegrityError) (1452, 'Cannot add or update a child row: a foreign key constraint fails (`bibliotheque`.`periodics`, CONSTRAINT `periodics_ibfk_2` FOREIGN KEY (`cost_id`) REFERENCES `cost` (`cost_id`))')
+[SQL: INSERT INTO periodics (periodic_id, volume, publisher, edition, book_shop, cost_id) VALUES (%s, %s, %s, %s, %s, %s)]
+[parameters: (5, 2, 'les blues', '1998', 'ecl librery', '2')]
+(Background on this error at: https://sqlalche.me/e/14/gkpj)

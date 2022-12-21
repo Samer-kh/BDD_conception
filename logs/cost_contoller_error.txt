@@ -1,0 +1,31 @@
+
+ 'currancy' is an invalid keyword argument for cost
+ 'currancy' is an invalid keyword argument for cost
+ (MySQLdb.OperationalError) (1054, "Unknown column 'currancy' in 'field list'")
+[SQL: INSERT INTO cost (value, currancy) VALUES (%s, %s)]
+[parameters: (3.5, 'dollar')]
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+ This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (MySQLdb.OperationalError) (1054, "Unknown column 'currancy' in 'field list'")
+[SQL: INSERT INTO cost (value, currancy) VALUES (%s, %s)]
+[parameters: (3.5, 'dollar')]
+(Background on this error at: https://sqlalche.me/e/14/e3q8) (Background on this error at: https://sqlalche.me/e/14/7s2a)
+ (MySQLdb.OperationalError) (1054, "Unknown column 'currancy' in 'field list'")
+[SQL: INSERT INTO cost (value, currancy) VALUES (%s, %s)]
+[parameters: ('3.5', Float(precision='dollar'))]
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+ (MySQLdb.OperationalError) (1054, "Unknown column 'currancy' in 'field list'")
+[SQL: INSERT INTO cost (value, currancy) VALUES (%s, %s)]
+[parameters: ('3.5', 'dollar')]
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+ This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (MySQLdb.OperationalError) (1054, "Unknown column 'currancy' in 'field list'")
+[SQL: INSERT INTO cost (value, currancy) VALUES (%s, %s)]
+[parameters: ('3.5', 'dollar')]
+(Background on this error at: https://sqlalche.me/e/14/e3q8) (Background on this error at: https://sqlalche.me/e/14/7s2a)
+ This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (MySQLdb.OperationalError) (1054, "Unknown column 'currancy' in 'field list'")
+[SQL: INSERT INTO cost (value, currancy) VALUES (%s, %s)]
+[parameters: ('3.5', 'dollar')]
+(Background on this error at: https://sqlalche.me/e/14/e3q8) (Background on this error at: https://sqlalche.me/e/14/7s2a)
+ (MySQLdb.OperationalError) (1054, "Unknown column 'currancy' in 'field list'")
+[SQL: INSERT INTO cost (value, currancy) VALUES (%s, %s)]
+[parameters: (3.5, 'dollar')]
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
