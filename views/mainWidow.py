@@ -4,13 +4,16 @@ import functools
 from PySide2.QtCore import *
 from PySide2.QtWidgets import *
 from PySide2.QtGui import *
-from CheckableComboBox import *
-from DatabaseTable import *
+from views.CheckableComboBox import *
+from views.DatabaseTable import *
+from views.AddWindow import *
+
 class GraphicalInterface(QMainWindow):
     Buttons=[]
     Table_box=None
     widget=None
     tableSet=False
+    addWidow=None
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Database Graphical Interface")
@@ -83,7 +86,7 @@ class GraphicalInterface(QMainWindow):
         
         ''' event control of the different parts of the layout'''
         button_change.clicked.connect(self.addTable)
-        
+        button_add.clicked.connect(self.openAdditionTab)
         '''add the buttons to the widget'''
         
         Button_layout.addWidget(button_add,Qt.AlignRight)
@@ -113,11 +116,13 @@ class GraphicalInterface(QMainWindow):
         self.addTable()
             
 
-        
+    '''Manage the table names '''       
     def setTableNames(self,box):
-        box.addItems(["Authers","Publication"])
+        box.addItems(["Publication","Authers"])
+    
+    '''show the chosen table'''
         
-    def addTable(self,):
+    def addTable(self):
         table= self.Table_box.currentText()
         print(table)
         if self.tableSet==False:
@@ -128,7 +133,23 @@ class GraphicalInterface(QMainWindow):
             self.Stacked_layout.itemAt(0).widget().setParent(None)
             self.widget=DatabaseTable(table)
             self.Stacked_layout.addWidget(self.widget)
-
+            
+    def openAdditionTab(self):
+        global addWindow
+        table= self.Table_box.currentText()
+        att=self.getAttributesFromTable()
+        addWindow=AddWindow(table,att,self.widget)
+        self.addWidow=addWindow      
+        addWindow.show()     
+    
+    '''Get the attributes from the table '''
+        
+    def getAttributesFromTable(self):   
+        match self.Table_box.currentText():
+            case "Publication":
+                return publication.getAttributes()
+            case "Authers":
+                return author.getAttributes()
 if __name__=="__main__":
     app=QApplication(sys.argv)
     

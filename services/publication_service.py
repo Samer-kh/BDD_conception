@@ -9,6 +9,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 ''' services to fetch the different documents by id'''
+def get_publication_all():
+        return session.query(publication).all()
 
 def get_regular_books(id):
         return session.get(regular_books, id)

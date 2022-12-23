@@ -16,6 +16,16 @@ class publication(Base):
     }
     def __str__(self):
         return 'id : {} , state : {} '.format(self.publication_id,self.state)
+    '''get the attributes needed for the views'''
+    @staticmethod
+    def  getAttributes():
+        return {"publication_id":"int","year_publication":"date","state":"restricted_values"}
+    
+    '''get the allowed value for the columns with a check constraint'''
+    @staticmethod
+    def  getRestrictedValue():
+        return {"state":["On rack", "issued to","lost","to be bought"]}
+       
 class regular_books(publication):
     ''' implémentation d'une classe relatif à la table regular books '''
     __tablename__="regularbooks"

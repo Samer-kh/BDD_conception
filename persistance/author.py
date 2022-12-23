@@ -14,3 +14,13 @@ class author(Base):
     def __str__(self):
         return 'id : {} , state : {} '.format(self.author_id,self.name)
     
+    '''get the attributes needed for the views'''
+    @staticmethod
+    def  getAttributes():
+        return {"author_id":"int","name":"str"}
+
+    '''get the allowed value for the columns with a check constraint'''
+    @staticmethod
+    def  getRestrictedValue():
+        return {}
+      
