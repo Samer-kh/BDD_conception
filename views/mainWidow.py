@@ -7,6 +7,8 @@ from PySide2.QtGui import *
 from views.CheckableComboBox import *
 from views.DatabaseTable import *
 from views.AddWindow import *
+from views.DeleteWindow import *
+from views.PreUpdateWindow import *
 
 class GraphicalInterface(QMainWindow):
     Buttons=[]
@@ -87,6 +89,8 @@ class GraphicalInterface(QMainWindow):
         ''' event control of the different parts of the layout'''
         button_change.clicked.connect(self.addTable)
         button_add.clicked.connect(self.openAdditionTab)
+        button_delete.clicked.connect(self.openDeleteTab)
+        button_update.clicked.connect(self.openUpdateTab)
         '''add the buttons to the widget'''
         
         Button_layout.addWidget(button_add,Qt.AlignRight)
@@ -118,13 +122,12 @@ class GraphicalInterface(QMainWindow):
 
     '''Manage the table names '''       
     def setTableNames(self,box):
-        box.addItems(["Publication","Authers"])
+        box.addItems(["Publication","Authers","Regular Books","Periodics","Internal Reports","ECL Thesis","Scientific_Reports"])
     
     '''show the chosen table'''
         
     def addTable(self):
         table= self.Table_box.currentText()
-        print(table)
         if self.tableSet==False:
             self.widget=DatabaseTable(table)
             self.Stacked_layout.addWidget(self.widget)
@@ -138,10 +141,25 @@ class GraphicalInterface(QMainWindow):
         global addWindow
         table= self.Table_box.currentText()
         att=self.getAttributesFromTable()
-        addWindow=AddWindow(table,att,self.widget)
+        addWindow=AddWindow(table,att,self.widget,self.Stacked_layout)
         self.addWidow=addWindow      
-        addWindow.show()     
-    
+        addWindow.show()   
+        
+    def openDeleteTab(self):
+        global deleteWindow
+        table= self.Table_box.currentText()
+        att=self.getAttributesFromTable()
+        deleteWindow=DeleteWindow(table,att,self.widget)
+        self.deleteWindow=deleteWindow      
+        deleteWindow.show()     
+
+    def openUpdateTab(self):
+        global preUpdateWindow
+        table= self.Table_box.currentText()
+        att=self.getAttributesFromTable()
+        preUpdateWindow=PreUpdateWindow(table,att,self.widget)
+        self.preUpdateWindow=preUpdateWindow      
+        preUpdateWindow.show()    
     '''Get the attributes from the table '''
         
     def getAttributesFromTable(self):   
@@ -150,6 +168,8 @@ class GraphicalInterface(QMainWindow):
                 return publication.getAttributes()
             case "Authers":
                 return author.getAttributes()
+            
+
 if __name__=="__main__":
     app=QApplication(sys.argv)
     

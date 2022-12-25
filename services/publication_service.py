@@ -12,6 +12,9 @@ from sqlalchemy.orm import sessionmaker
 def get_publication_all():
         return session.query(publication).all()
 
+def get_publication(id):
+        return session.get(publication, id)
+
 def get_regular_books(id):
         return session.get(regular_books, id)
         
@@ -46,6 +49,11 @@ def get_scientific_reports_all():
 
 ''' services to add the different documents '''
 
+def add_publication(state,year_publications):
+        pub = publication(state=state,year_publication=year_publications)
+        session.add(pub)
+        session.commit()
+
 def add_regular_books(state,titles,publishers,editions,year_publications,book_shops,id_cost):
         book = regular_books(state=state,title=titles,publisher=publishers,edition=editions,year_publication=year_publications,
                             book_shop=book_shops,cost_id=id_cost)
@@ -74,7 +82,11 @@ def add_scientific_reports(state,title,publication_year):
         session.commit()
         
 ''' services to delete differents documents'''
-
+def delete_publication(id):
+        pub_to_delete = session.get(publication, id)
+        session.delete(pub_to_delete)
+        session.commit()
+        
 def delete_regular_books(id):
         book_to_delete = session.get(regular_books, id)
         session.delete(book_to_delete)
@@ -101,6 +113,13 @@ def delete_scientific_reports(id):
         session.commit()
 
 ''' services to modify differents documents'''
+
+def update_publication(dict,id):
+        pub_to_update = session.get(publication, id)
+        pub_to_update.year_publication = dict["year_publication"]
+        pub_to_update.state = dict["state"]        
+        session.commit()
+
 
 def update_regular_book(dict,id):
     book_to_update = session.get(regular_books, id)

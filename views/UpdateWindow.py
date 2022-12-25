@@ -5,24 +5,25 @@ from persistance.author import *
 from persistance.publication import *
 from services.publication_service import *
 from services.author_service import *
-class AddWindow(QWidget):
+class UpdateWindow(QWidget):
     table="Publication"
     tableWidget=None
     Attributes=None
     ValueToAdd=None
     layoutTable=None
     itemNumber=0
+    widget=None
     inputs={}
-    def __init__(self,table,att,tableWidget,layoutTable):
+    def __init__(self,table,att,tableWidget,widget):
         super().__init__()
         self.table=table
         self.Attributes=att
         self.tableWidget=tableWidget
-        self.layoutTable=layoutTable
+        self.widget=widget
         
         '''prepare the layout'''
         
-        self.setWindowTitle("add row")
+        self.setWindowTitle("Update row")
         Layout=QGridLayout()
         
         ''' adding the adding widgets based of the attribute type
@@ -63,9 +64,10 @@ class AddWindow(QWidget):
                     self.inputs[i]=(input,i)
                     Layout.addWidget(label_add,self.itemNumber,0,1,2)
                     Layout.addWidget(input,self.itemNumber,2,1,4)  
-                    self.itemNumber+=1                    
-        button_validation=QPushButton("Add row")    
-        button_validation.clicked.connect(self.addRow)    
+                    self.itemNumber+=1   
+        self.fill()                 
+        button_validation=QPushButton("Update row")    
+        button_validation.clicked.connect(self.UpdateRow)    
         Layout.addWidget(button_validation,self.itemNumber,0,1,6)  
                                           
         ''' add the layout to the widget '''   
@@ -86,10 +88,24 @@ class AddWindow(QWidget):
                 return publication.getRestrictedValue()
             case "Authers":
                 return author.getRestrictedValue()     
+    ''' fill the spaces with the existing values'''
+    def fill(self):
+        for i in list(self.inputs.keys()):
+            value=getattr(self.widget, self.inputs[i][1])
+            match self.inputs[i][0].__class__.__name__:
+                case "QLineEdit":
+                    print("QLine")
+                    self.inputs[i][0].setText (str(value))
+                case "QComboBox":
+                    print("QComboBox")
+                    self.inputs[i][0].setCurrentText (value)
+                case "QDateEdit":
+                    print("QDateEdit")
+                    value=self.inputs[i][0].setDate(value)
+                    
+    '''update the row to the database and to the table'''
     
-    '''add the row to the database and to the table'''
-    
-    def addRow(self):
+    def UpdateRow(self):
         count=0
         valueDict={}
         for i in list(self.inputs.keys()):
@@ -114,16 +130,19 @@ class AddWindow(QWidget):
         try:
             match self.table:
                 case "Publication":
-                    add_publication(valueDict["state"],valueDict["year_publication"])
-                    self.Success_msg("ligne ajoutée avec succés")
+                    update_publication(valueDict,valueDict[list(valueDict.keys())[0]])
+                    self.Success_msg("Modification effectué avec succés")
                 case "Authers":
-                    add_authors(valueDict["name"])
-                    self.Success_msg("ligne ajoutée avec succés")
-        except :
-            self.close()
-            self.Error_msg("Merci de verifier les contraintes d'ajout et les types des variables")      
+                    update_author(valueDict,valueDict[list(valueDict.keys())[0]])
+                    self.Success_msg("Modification effectué avec succés")
+        except:
+            self.Error_msg("Echec au niveau de la modification")
+        print(valueDict)  
         self.tableWidget.refreshTable()
         self.close()
+        
+    '''afficher un message de succes'''
+    
     def Success_msg(self,txt):
         font = QFont()
         font.setFamily("Arial")
@@ -140,6 +159,8 @@ class AddWindow(QWidget):
         msg.setTextFormat(Qt.RichText)
         msg.resize(msg.sizeHint())
         msg.exec_()
+        
+    '''afficher un message d'erreur'''
     def Error_msg(self,txt):
         font = QFont()
         font.setFamily("Arial")

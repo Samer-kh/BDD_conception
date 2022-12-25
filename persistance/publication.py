@@ -42,6 +42,15 @@ class regular_books(publication):
     __mapper_args__={
         "polymorphic_identity" : "regular_book",
     }
+    @staticmethod
+    def  getAttributes():
+        return {"ISBN":"int","title":"str","publisher":"str","edition":"str","book_shop":"str","cost_id":"int","year_publication":"date","state":"restricted_values"}
+    
+    '''get the allowed value for the columns with a check constraint'''
+    @staticmethod
+    def  getRestrictedValue():
+        return {"state":["On rack", "issued to","lost","to be bought"]}
+      
 class periodics(publication):
     '''implémentation de la classe péeriodics associé au tableau periodics dans la bdd '''
     __tablename__="periodics"
@@ -55,7 +64,16 @@ class periodics(publication):
     costs = relationship("cost", uselist=False, back_populates="periodics")
     __mapper_args__={
         "polymorphic_identity" : "periodics",
-    }    
+    }   
+    @staticmethod
+    def  getAttributes():
+        return {"periodic_id":"int","volume":"int","publisher":"str","edition":"str","book_shop":"str","cost_id":"int","year_publication":"date","state":"restricted_values"}
+    
+    '''get the allowed value for the columns with a check constraint'''
+    @staticmethod
+    def  getRestrictedValue():
+        return {"state":["On rack", "issued to","lost","to be bought"]} 
+    
 class internal_reports(publication):
     __tablename__="internal_reports"
 
@@ -65,6 +83,15 @@ class internal_reports(publication):
         "polymorphic_identity" : "internal_reports"
     }   
     
+    @staticmethod
+    def  getAttributes():
+        return {"report_id":"int","year_publication":"date","state":"restricted_values"}
+    
+    '''get the allowed value for the columns with a check constraint'''
+    @staticmethod
+    def  getRestrictedValue():
+        return {"state":["On rack", "issued to","lost","to be bought"]}   
+      
 class ECL_thesis(internal_reports):
     __tablename__="ECL_thesis"
 
@@ -73,6 +100,14 @@ class ECL_thesis(internal_reports):
     __mapper_args__ ={
         "polymorphic_identity" : "ECL_thesis"
     } 
+    @staticmethod
+    def  getAttributes():
+        return {"Id_thesis":"int","year_publication":"date","state":"restricted_values","Author_id":"int"}
+    
+    '''get the allowed value for the columns with a check constraint'''
+    @staticmethod
+    def  getRestrictedValue():
+        return {"state":["On rack", "issued to","lost","to be bought"]}      
       
 class Scientific_Reports(internal_reports):
     __tablename__="Scientific_Reports"
@@ -82,7 +117,14 @@ class Scientific_Reports(internal_reports):
     __mapper_args__ ={
         "polymorphic_identity" : "Scientific_Reports"
     }   
-
+    @staticmethod
+    def  getAttributes():
+        return {"Id_Report":"int","year_publication":"date","state":"restricted_values"}
+    
+    '''get the allowed value for the columns with a check constraint'''
+    @staticmethod
+    def  getRestrictedValue():
+        return {"state":["On rack", "issued to","lost","to be bought"]}  
 Base.metadata.create_all(engine)
    
     

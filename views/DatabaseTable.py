@@ -65,6 +65,20 @@ class DatabaseTable(QTableWidget):
                 return ["publication_id","year_publication","state"]
             case "Authers":
                 return ["author_id","name"]
+    ''' refresh table after doing an operation'''        
+    def refreshTable(self):
+        print(self.rowCount())
+        self.setRowCount(0)
+        headerH = self.getHeaders(self.table)
+        rows=self.getTableRows(self.table)
+        self.setRowCount(len(rows))
+        self.count=0
+        for i in rows:
+            for att in range(0,len(headerH)):
+                print(getattr(i,headerH[att]))
+                self.setItem(self.count, att, QTableWidgetItem(str(getattr(i,headerH[att]))))
+            self.count += 1
+
 
 '''a delegate to render table cells non-editable'''
 
