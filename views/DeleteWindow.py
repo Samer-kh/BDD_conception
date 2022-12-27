@@ -57,6 +57,21 @@ class DeleteWindow(QWidget):
                 case "Authers":
                     delete_authors(value)
                     self.Success_msg("Ligne supprimé avec succés")
+                case "Regular Books":
+                    delete_regular_books(value)
+                    self.Success_msg("Ligne supprimé avec succés")
+                case "Periodics":
+                    delete_periodics(value)
+                    self.Success_msg("Ligne supprimé avec succés") 
+                case "Internal Reports":
+                    delete_internal_reports(value)
+                    self.Success_msg("Ligne supprimé avec succés")
+                case "ECL Thesis":
+                    delete_ecl_thesiss(value)
+                    self.Success_msg("Ligne supprimé avec succés") 
+                case "Scientific_Reports":
+                    delete_scientific_reports(value)
+                    self.Success_msg("Ligne supprimé avec succés") 
             self.tableWidget.refreshTable()
         except:
             self.Error_msg("Merci de vérifier les contraites avant de supprimer")

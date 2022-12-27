@@ -9,6 +9,8 @@ from views.DatabaseTable import *
 from views.AddWindow import *
 from views.DeleteWindow import *
 from views.PreUpdateWindow import *
+from persistance.cost import *
+from persistance.category import *
 
 class GraphicalInterface(QMainWindow):
     Buttons=[]
@@ -122,7 +124,7 @@ class GraphicalInterface(QMainWindow):
 
     '''Manage the table names '''       
     def setTableNames(self,box):
-        box.addItems(["Publication","Authers","Regular Books","Periodics","Internal Reports","ECL Thesis","Scientific_Reports"])
+        box.addItems(["Publication","Authers","Regular Books","Periodics","Internal Reports","ECL Thesis","Scientific_Reports","Cost","Category"])
     
     '''show the chosen table'''
         
@@ -168,7 +170,20 @@ class GraphicalInterface(QMainWindow):
                 return publication.getAttributes()
             case "Authers":
                 return author.getAttributes()
-            
+            case "Regular Books":
+                return regular_books.getAttributes()
+            case "Periodics":
+                return periodics.getAttributes()
+            case "Internal Reports":
+                return internal_reports.getAttributes()
+            case "ECL Thesis":
+                return ECL_thesis.getAttributes()
+            case "Scientific_Reports":
+                return Scientific_Reports.getAttributes()
+            case "Cost":
+                return cost.getAttributes()
+            case "Category":
+                return category.getAttributes()            
 
 if __name__=="__main__":
     app=QApplication(sys.argv)

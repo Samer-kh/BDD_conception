@@ -85,7 +85,7 @@ class internal_reports(publication):
     
     @staticmethod
     def  getAttributes():
-        return {"report_id":"int","year_publication":"date","state":"restricted_values"}
+        return {"report_id":"int","title":"str","year_publication":"date","state":"restricted_values"}
     
     '''get the allowed value for the columns with a check constraint'''
     @staticmethod
@@ -102,7 +102,7 @@ class ECL_thesis(internal_reports):
     } 
     @staticmethod
     def  getAttributes():
-        return {"Id_thesis":"int","year_publication":"date","state":"restricted_values","Author_id":"int"}
+        return {"Id_thesis":"int","title":"str","year_publication":"date","state":"restricted_values","Author_id":"int"}
     
     '''get the allowed value for the columns with a check constraint'''
     @staticmethod
@@ -119,7 +119,7 @@ class Scientific_Reports(internal_reports):
     }   
     @staticmethod
     def  getAttributes():
-        return {"Id_Report":"int","year_publication":"date","state":"restricted_values"}
+        return {"Id_Report":"int","title":"str","year_publication":"date","state":"restricted_values"}
     
     '''get the allowed value for the columns with a check constraint'''
     @staticmethod

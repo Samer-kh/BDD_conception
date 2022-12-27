@@ -19,7 +19,7 @@ class AddWindow(QWidget):
         self.Attributes=att
         self.tableWidget=tableWidget
         self.layoutTable=layoutTable
-        
+        self.inputs={}
         '''prepare the layout'''
         
         self.setWindowTitle("add row")
@@ -85,7 +85,17 @@ class AddWindow(QWidget):
             case "Publication":
                 return publication.getRestrictedValue()
             case "Authers":
-                return author.getRestrictedValue()     
+                return author.getRestrictedValue()  
+            case "Regular Books":
+                return regular_books.getRestrictedValue() 
+            case "Periodics":
+                return periodics.getRestrictedValue() 
+            case "Internal Reports":
+                return internal_reports.getRestrictedValue() 
+            case "ECL Thesis":
+                return ECL_thesis.getRestrictedValue() 
+            case "Scientific_Reports":
+                return Scientific_Reports.getRestrictedValue()    
     
     '''add the row to the database and to the table'''
     
@@ -95,22 +105,18 @@ class AddWindow(QWidget):
         for i in list(self.inputs.keys()):
             match self.inputs[i][0].__class__.__name__:
                 case "QLineEdit":
-                    print("QLine")
                     value=self.inputs[i][0].text()
                     row=self.tableWidget.rowCount()+1
                     valueDict[self.inputs[i][1]]=value
                 case "QComboBox":
-                    print("QComboBox")
                     value=self.inputs[i][0].currentText()
                     row=self.tableWidget.rowCount()+1
                     valueDict[self.inputs[i][1]]=value
                 case "QDateEdit":
-                    print("QDateEdit")
                     value=self.inputs[i][0].date()
                     row=self.tableWidget.rowCount()+1
                     valueDict[self.inputs[i][1]]=value.toPython()
             count+=1
-            print(valueDict)
         try:
             match self.table:
                 case "Publication":
@@ -119,6 +125,24 @@ class AddWindow(QWidget):
                 case "Authers":
                     add_authors(valueDict["name"])
                     self.Success_msg("ligne ajoutée avec succés")
+                case "Regular Books":
+                    add_regular_books(valueDict["state"],valueDict["title"],valueDict["publisher"],valueDict["edition"]
+                          ,valueDict["year_publication"],valueDict["book_shop"],valueDict["cost_id"])
+                    self.Success_msg("ligne ajoutée avec succés") 
+                case "Periodics":
+                    add_periodics(valueDict["state"],valueDict["volume"],valueDict["publisher"],valueDict["edition"]
+                          ,valueDict["year_publication"],valueDict["book_shop"],valueDict["cost_id"])
+                    self.Success_msg("ligne ajoutée avec succés") 
+                case "Internal Reports":
+                    add_internal_reports(valueDict["state"],valueDict["title"],valueDict["year_publication"])
+                    self.Success_msg("ligne ajoutée avec succés")
+                case "ECL Thesis":
+                    add_ECL_thesis(valueDict["state"],valueDict["title"],valueDict["Author_id"],valueDict["year_publication"])
+                    self.Success_msg("ligne ajoutée avec succés") 
+                case "Scientific_Reports":
+                    add_scientific_reports(valueDict["state"],valueDict["title"],valueDict["year_publication"])
+                    self.Success_msg("ligne ajoutée avec succés")
+                    
         except :
             self.close()
             self.Error_msg("Merci de verifier les contraintes d'ajout et les types des variables")      

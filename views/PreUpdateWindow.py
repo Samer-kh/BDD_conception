@@ -64,4 +64,34 @@ class PreUpdateWindow(QWidget):
                 self.updateWindow=updateWindow      
                 updateWindow.show()
                 self.close() 
+            case "Regular Books":
+                book=get_regular_books(value)
+                updateWindow=UpdateWindow(self.table,self.Attributes,self.tableWidget,book)
+                self.updateWindow=updateWindow      
+                updateWindow.show()
+                self.close() 
+            case "Periodics":
+                periodic=get_periodics(value)
+                updateWindow=UpdateWindow(self.table,self.Attributes,self.tableWidget,periodic)
+                self.updateWindow=updateWindow      
+                updateWindow.show()
+                self.close()
+            case "Internal Reports":
+                internal=get_internal_reports(value)
+                updateWindow=UpdateWindow(self.table,self.Attributes,self.tableWidget,internal)
+                self.updateWindow=updateWindow      
+                updateWindow.show()
+                self.close()
+            case "ECL Thesis":
+                ecl_thesis=get_ECL_thesis(value)
+                updateWindow=UpdateWindow(self.table,self.Attributes,self.tableWidget,ecl_thesis)
+                self.updateWindow=updateWindow      
+                updateWindow.show()
+                self.close()
+            case "Scientific_Reports":
+                rep=get_scientific_reports(value)
+                updateWindow=UpdateWindow(self.table,self.Attributes,self.tableWidget,rep)
+                self.updateWindow=updateWindow      
+                updateWindow.show()
+                self.close()
         self.tableWidget.refreshTable()

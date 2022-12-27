@@ -46,7 +46,7 @@ if __name__ == "__main__":        # on running python app.py
     app.setPalette(palette)
     
     widget=GraphicalInterface()
-    widget.resize(1000,1000)
+    widget.resize(1000,700)
     widget.show()
     app.exec_()
     sys.exit()

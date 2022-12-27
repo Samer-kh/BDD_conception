@@ -39,7 +39,6 @@ class DatabaseTable(QTableWidget):
         self.setRowCount(len(rows))
         for i in rows:
             for att in range(0,len(headerH)):
-                print(getattr(i,headerH[att]))
                 self.setItem(self.count, att, QTableWidgetItem(str(getattr(i,headerH[att]))))
             self.count += 1
         
@@ -55,7 +54,17 @@ class DatabaseTable(QTableWidget):
             case "Publication":
                 return get_publication_all()
             case "Authers":
-                return get_all_authors()      
+                return get_all_authors() 
+            case "Regular Books":
+                return get_regular_books_all()
+            case "Periodics":
+                return get_periodics_all()
+            case "Internal Reports":
+                return get_internal_reports_all()
+            case "ECL Thesis":
+                return get_ECL_thesis_all()
+            case "Scientific_Reports":
+                return get_scientific_reports_all()   
             
     '''Method to get the table headers'''  
                     
@@ -65,9 +74,22 @@ class DatabaseTable(QTableWidget):
                 return ["publication_id","year_publication","state"]
             case "Authers":
                 return ["author_id","name"]
+            case "Regular Books":
+                return ["ISBN","title","publisher","edition","book_shop","cost_id","year_publication","state"]
+            case "Periodics":
+                return ["periodic_id","volume","publisher","edition","book_shop","cost_id","year_publication","state"]
+            case "Internal Reports":
+                return ["report_id","title","year_publication","state"]
+            case "ECL Thesis":
+                return ["Id_thesis","title","year_publication","state","Author_id"]
+            case "Scientific_Reports":
+                return ["Id_Report","title","year_publication","state"]
+            case "Cost":
+                return ["cost_id","value","currancy"]
+            case "currancy":
+                return ["Category_id","name_category"]            
     ''' refresh table after doing an operation'''        
     def refreshTable(self):
-        print(self.rowCount())
         self.setRowCount(0)
         headerH = self.getHeaders(self.table)
         rows=self.getTableRows(self.table)
@@ -75,7 +97,6 @@ class DatabaseTable(QTableWidget):
         self.count=0
         for i in rows:
             for att in range(0,len(headerH)):
-                print(getattr(i,headerH[att]))
                 self.setItem(self.count, att, QTableWidgetItem(str(getattr(i,headerH[att]))))
             self.count += 1
 

@@ -33,6 +33,7 @@ class UpdateWindow(QWidget):
                     date => QDateEdit (calender where we can select a date)
                     restrained value ( check constraint) => combo box 
         '''
+        self.inputs={}
         for i in list(self.Attributes.keys()):
             match self.Attributes[i]:
                 case "int":
@@ -87,20 +88,27 @@ class UpdateWindow(QWidget):
             case "Publication":
                 return publication.getRestrictedValue()
             case "Authers":
-                return author.getRestrictedValue()     
+                return author.getRestrictedValue()   
+            case "Regular Books":
+                return regular_books.getRestrictedValue() 
+            case "Periodics":
+                return periodics.getRestrictedValue() 
+            case "Internal Reports":
+                return internal_reports.getRestrictedValue() 
+            case "ECL Thesis":
+                return ECL_thesis.getRestrictedValue() 
+            case "Scientific_Reports":
+                return Scientific_Reports.getRestrictedValue()    
     ''' fill the spaces with the existing values'''
     def fill(self):
         for i in list(self.inputs.keys()):
             value=getattr(self.widget, self.inputs[i][1])
             match self.inputs[i][0].__class__.__name__:
                 case "QLineEdit":
-                    print("QLine")
                     self.inputs[i][0].setText (str(value))
                 case "QComboBox":
-                    print("QComboBox")
                     self.inputs[i][0].setCurrentText (value)
                 case "QDateEdit":
-                    print("QDateEdit")
                     value=self.inputs[i][0].setDate(value)
                     
     '''update the row to the database and to the table'''
@@ -111,22 +119,18 @@ class UpdateWindow(QWidget):
         for i in list(self.inputs.keys()):
             match self.inputs[i][0].__class__.__name__:
                 case "QLineEdit":
-                    print("QLine")
                     value=self.inputs[i][0].text()
                     row=self.tableWidget.rowCount()+1
                     valueDict[self.inputs[i][1]]=value
                 case "QComboBox":
-                    print("QComboBox")
                     value=self.inputs[i][0].currentText()
                     row=self.tableWidget.rowCount()+1
                     valueDict[self.inputs[i][1]]=value
                 case "QDateEdit":
-                    print("QDateEdit")
                     value=self.inputs[i][0].date()
                     row=self.tableWidget.rowCount()+1
                     valueDict[self.inputs[i][1]]=value.toPython()
             count+=1
-            print(valueDict)
         try:
             match self.table:
                 case "Publication":
@@ -135,11 +139,26 @@ class UpdateWindow(QWidget):
                 case "Authers":
                     update_author(valueDict,valueDict[list(valueDict.keys())[0]])
                     self.Success_msg("Modification effectué avec succés")
+                case "Regular Books":
+                    update_regular_book(valueDict,valueDict[list(valueDict.keys())[0]])
+                    self.Success_msg("Modification effectué avec succés")
+                case "Periodics":
+                    update_periodic(valueDict,valueDict[list(valueDict.keys())[0]])
+                    self.Success_msg("Modification effectué avec succés")
+                case "Internal Reports":
+                    update_internal_reports(valueDict,valueDict[list(valueDict.keys())[0]])
+                    self.Success_msg("Modification effectué avec succés") 
+                case "ECL Thesis":
+                    update_ecl_thesis(valueDict,valueDict[list(valueDict.keys())[0]])
+                    self.Success_msg("Modification effectué avec succés")
+                case "Scientific_Reports":
+                    update_scientific_report(valueDict,valueDict[list(valueDict.keys())[0]])
+                    self.Success_msg("Modification effectué avec succés")  
         except:
-            self.Error_msg("Echec au niveau de la modification")
-        print(valueDict)  
+            self.Error_msg("Echec au niveau de la modification") 
         self.tableWidget.refreshTable()
         self.close()
+ 
         
     '''afficher un message de succes'''
     

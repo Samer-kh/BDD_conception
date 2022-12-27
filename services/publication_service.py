@@ -112,6 +112,7 @@ def delete_scientific_reports(id):
         session.delete(scientific_report_to_delete)
         session.commit()
 
+
 ''' services to modify differents documents'''
 
 def update_publication(dict,id):
@@ -122,19 +123,50 @@ def update_publication(dict,id):
 
 
 def update_regular_book(dict,id):
-    book_to_update = session.get(regular_books, id)
-    for i in list(dict.keys()):
-        book_to_update.i = dict[i]
+        book_to_update = session.get(regular_books, id)
+        book_to_update.year_publication = dict["year_publication"]
+        book_to_update.state = dict["state"]
+        book_to_update.ISBN = dict["ISBN"]
+        book_to_update.title = dict["title"]
+        book_to_update.publisher = dict["publisher"]
+        book_to_update.edition = dict["edition"]
+        book_to_update.book_shop = dict["book_shop"]
+        book_to_update.cost_id = dict["cost_id"]
         session.commit()
 
 def update_periodic(dict,id):
-    periodic_to_update = session.get(periodics, id)
-    for i in list(dict.keys()):
-        periodic_to_update.i = dict[i]
+        periodic_to_update = session.get(periodics, id)
+        periodic_to_update.year_publication = dict["year_publication"]
+        periodic_to_update.state = dict["state"]
+        periodic_to_update.ISBN = dict["ISBN"]
+        periodic_to_update.volume = dict["volume"]
+        periodic_to_update.publisher = dict["publisher"]
+        periodic_to_update.edition = dict["edition"]
+        periodic_to_update.book_shop = dict["book_shop"]
+        periodic_to_update.cost_id = dict["cost_id"]
         session.commit()
 
 def update_internal_reports(dict,id):
-    internal_report_to_update = session.get(periodics, id)
-    for i in list(dict.keys()):
-        internal_report_to_update.i = dict[i]
+        internal_report_to_update = session.get(internal_reports, id)
+        internal_report_to_update.year_publication = dict["year_publication"]
+        internal_report_to_update.state = dict["state"]   
+        internal_report_to_update.title = dict["title"]  
+        internal_report_to_update.report_id = dict["report_id"]
+        session.commit()
+        
+def update_ecl_thesis(dict,id):
+        ecl_thesis_to_update = session.get(ECL_thesis, id)
+        ecl_thesis_to_update.year_publication = dict["year_publication"]
+        ecl_thesis_to_update.state = dict["state"]    
+        ecl_thesis_to_update.Id_thesis = dict["Id_thesis"]
+        ecl_thesis_to_update.title = dict["title"]  
+        ecl_thesis_to_update.Author_id = dict["Author_id"]
+        session.commit()
+        
+def update_scientific_report(dict,id):
+        sc_to_update = session.get(Scientific_Reports, id)
+        sc_to_update.year_publication = dict["year_publication"]
+        sc_to_update.state = dict["state"] 
+        sc_to_update.title = dict["title"]    
+        sc_to_update.Id_Report = dict["Id_Report"]
         session.commit()
