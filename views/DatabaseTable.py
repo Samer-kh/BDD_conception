@@ -3,6 +3,11 @@ from PySide2.QtWidgets import *
 from PySide2.QtGui import *
 from services.publication_service import *
 from services.author_service import *
+from services.category_service import *
+from services.cost_service import *
+from services.user_service import *
+from services.lab_service import *
+from services.keyword_service import *
 import os
 
 
@@ -65,29 +70,45 @@ class DatabaseTable(QTableWidget):
                 return get_ECL_thesis_all()
             case "Scientific_Reports":
                 return get_scientific_reports_all()   
-            
+            case "Cost":
+                return get_all_costs() 
+            case "Category":
+                return get_all_cat()      
+            case "User":
+                return get_all_users()  
+            case "Lab":
+                return get_all_labs()
+            case "Keyword":
+                return get_all_keywords()     
     '''Method to get the table headers'''  
                     
     def getHeaders(self,table):
         match table:
             case "Publication":
-                return ["publication_id","year_publication","state"]
+                return ["publication_id","year_publication","state","lab_id"]
             case "Authers":
                 return ["author_id","name"]
             case "Regular Books":
-                return ["ISBN","title","publisher","edition","book_shop","cost_id","year_publication","state"]
+                return ["ISBN","title","publisher","edition","book_shop","cost_id","year_publication","state","lab_id"]
             case "Periodics":
-                return ["periodic_id","volume","publisher","edition","book_shop","cost_id","year_publication","state"]
+                return ["periodic_id","volume","publisher","edition","book_shop","cost_id","year_publication","state","lab_id"]
             case "Internal Reports":
-                return ["report_id","title","year_publication","state"]
+                return ["report_id","title","year_publication","state","lab_id"]
             case "ECL Thesis":
-                return ["Id_thesis","title","year_publication","state","Author_id"]
+                return ["Id_thesis","title","year_publication","state","Author_id","lab_id"]
             case "Scientific_Reports":
-                return ["Id_Report","title","year_publication","state"]
+                return ["Id_Report","title","year_publication","state","lab_id"]
             case "Cost":
                 return ["cost_id","value","currancy"]
-            case "currancy":
-                return ["Category_id","name_category"]            
+            case "Category":
+                return ["Category_id","name_category"]   
+            case "User":
+                return ["user_id","email"]   
+            case "Lab":
+                return ["lab_id","lab_name"]   
+            case "Keyword":
+                return ["key_id","value"]   
+                  
     ''' refresh table after doing an operation'''        
     def refreshTable(self):
         self.setRowCount(0)

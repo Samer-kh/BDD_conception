@@ -13,5 +13,12 @@ class category(Base):
     }
     def __str__(self):
         return 'id : {} , name : {} '.format(self.Category_id,self.name_category)
+    @staticmethod
+    def  getAttributes():
+        return {"Category_id":"int","name_category":"str"}
     
+    '''get the allowed value for the columns with a check constraint'''
+    @staticmethod
+    def  getRestrictedValue():
+        return {}   
 

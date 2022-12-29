@@ -3,6 +3,8 @@ from persistance.author import *
 from persistance.category import *
 from persistance.cost import *
 from persistance.user import *
+from persistance.Lab import *
+from persistance.keyword import *
 class publication(Base):
     ''' implémentation de la classe mére relatif à la table publication'''
     __tablename__="publication"
@@ -10,6 +12,10 @@ class publication(Base):
     year_publication = Column(Date,nullable=False)
     state = Column(String(50), nullable=False)
     users  = relationship("user", secondary=user_publication, back_populates="publications")
+    lab_id = Column(Integer,ForeignKey("lab.lab_id"),nullable=False)
+    labs = relationship("lab", uselist=False, back_populates="pubs")
+    labs_with_copy  = relationship("lab", secondary=pub_lab_hascopy, back_populates="books_copy")
+    keywords_p  = relationship("keyword", secondary=keyword_publication, back_populates="pubs")
     __mapper_arg__={
         "polymorphic_on" : type,
         "polymorphic_identity" : "publication"
@@ -19,7 +25,7 @@ class publication(Base):
     '''get the attributes needed for the views'''
     @staticmethod
     def  getAttributes():
-        return {"publication_id":"int","year_publication":"date","state":"restricted_values"}
+        return {"publication_id":"int","year_publication":"date","state":"restricted_values","lab_id":"int"}
     
     '''get the allowed value for the columns with a check constraint'''
     @staticmethod

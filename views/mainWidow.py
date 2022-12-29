@@ -11,6 +11,9 @@ from views.DeleteWindow import *
 from views.PreUpdateWindow import *
 from persistance.cost import *
 from persistance.category import *
+from views.SpecialAdd import *
+from persistance.Lab import *
+from persistance.keyword import *
 
 class GraphicalInterface(QMainWindow):
     Buttons=[]
@@ -39,7 +42,7 @@ class GraphicalInterface(QMainWindow):
         self.Table_box=QComboBox()
         button_change=QPushButton("Change table")
         Logo=QLabel()
-        
+        button_special=QPushButton("Special Queries")
         '''add the buttons to the list for save later'''
         
         self.Buttons.append(button_add)
@@ -48,7 +51,7 @@ class GraphicalInterface(QMainWindow):
         self.Buttons.append(Logo) 
         self.Buttons.append(button_change)    
         self.Buttons.append(self.Table_box)  
-         
+        self.Buttons.append(button_special) 
         '''preparing icons'''
         
         pixmap=QPixmap("./images/ecl.png")
@@ -58,10 +61,13 @@ class GraphicalInterface(QMainWindow):
         pixmapi_delete = getattr(QStyle, "SP_DialogDiscardButton")
         pixmapi_update = getattr(QStyle , 'SP_DialogResetButton')
         pixmapi_changed = getattr(QStyle , 'SP_DialogApplyButton')
+        pixmapi_special = getattr(QStyle , 'SP_FileDialogContentsView')
+        
         icon_delete = self.style().standardIcon(pixmapi_delete)
         icon_add = self.style().standardIcon(pixmapi_add)
         icon_update = self.style().standardIcon(pixmapi_update)
         icon_change = self.style().standardIcon(pixmapi_changed)
+        icon_special = self.style().standardIcon(pixmapi_special)
         
         '''adding icons to buttons'''
         
@@ -69,6 +75,7 @@ class GraphicalInterface(QMainWindow):
         button_delete.setIcon(icon_delete)
         button_update.setIcon(icon_update)
         button_change.setIcon(icon_change)
+        button_special.setIcon(icon_special)
         '''setting buttons height'''
         
         button_add.setFixedHeight(50)
@@ -77,6 +84,7 @@ class GraphicalInterface(QMainWindow):
         Logo.setFixedHeight(50)
         self.Table_box.setFixedHeight(50)
         button_change.setFixedHeight(50)
+        button_special.setFixedHeight(50)
         '''setting the size policy'''
         
         button_add.setSizePolicy(
@@ -93,6 +101,7 @@ class GraphicalInterface(QMainWindow):
         button_add.clicked.connect(self.openAdditionTab)
         button_delete.clicked.connect(self.openDeleteTab)
         button_update.clicked.connect(self.openUpdateTab)
+        button_special.clicked.connect(self.getSpecialQueries)
         '''add the buttons to the widget'''
         
         Button_layout.addWidget(button_add,Qt.AlignRight)
@@ -100,7 +109,9 @@ class GraphicalInterface(QMainWindow):
         Button_layout.addWidget(button_delete,Qt.AlignRight)
         Button_layout.addWidget(self.Table_box,Qt.AlignCenter)
         Button_layout.addWidget(button_change,Qt.AlignLeft)
+        Button_layout.addWidget(button_special,Qt.AlignLeft)
         Button_layout.addWidget(Logo,Qt.AlignLeft)
+        
         
 
         '''changing the style and the font of the window'''
@@ -124,7 +135,7 @@ class GraphicalInterface(QMainWindow):
 
     '''Manage the table names '''       
     def setTableNames(self,box):
-        box.addItems(["Publication","Authers","Regular Books","Periodics","Internal Reports","ECL Thesis","Scientific_Reports","Cost","Category"])
+        box.addItems(["Publication","Authers","Regular Books","Periodics","Internal Reports","ECL Thesis","Scientific_Reports","Cost","Category","User","Lab","Keyword"])
     
     '''show the chosen table'''
         
@@ -138,6 +149,9 @@ class GraphicalInterface(QMainWindow):
             self.Stacked_layout.itemAt(0).widget().setParent(None)
             self.widget=DatabaseTable(table)
             self.Stacked_layout.addWidget(self.widget)
+        self.Buttons[0].setEnabled(True)
+        self.Buttons[1].setEnabled(True)
+        self.Buttons[2].setEnabled(True)        
             
     def openAdditionTab(self):
         global addWindow
@@ -184,7 +198,16 @@ class GraphicalInterface(QMainWindow):
                 return cost.getAttributes()
             case "Category":
                 return category.getAttributes()            
-
+            case "User":
+                return user.getAttributes() 
+            case "Lab":
+                return lab.getAttributes() 
+            case "Keyword":
+                return keyword.getAttributes()             
+    def getSpecialQueries(self):
+        global queryWindow
+        queryWindow=SpecialAdd(self,self.Buttons)     
+        queryWindow.show()
 if __name__=="__main__":
     app=QApplication(sys.argv)
     

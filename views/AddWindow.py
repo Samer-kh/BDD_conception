@@ -5,6 +5,11 @@ from persistance.author import *
 from persistance.publication import *
 from services.publication_service import *
 from services.author_service import *
+from services.category_service import *
+from services.cost_service import *
+from services.user_service import *
+from services.lab_service import *
+from services.keyword_service import *
 class AddWindow(QWidget):
     table="Publication"
     tableWidget=None
@@ -35,6 +40,13 @@ class AddWindow(QWidget):
         for i in list(self.Attributes.keys()):
             match self.Attributes[i]:
                 case "int":
+                    label_add=QLabel(i+' :')
+                    input=QLineEdit()
+                    self.inputs[i]=(input,i)
+                    Layout.addWidget(label_add,self.itemNumber,0,1,2)
+                    Layout.addWidget(input,self.itemNumber,2,1,4)
+                    self.itemNumber+=1
+                case "float":
                     label_add=QLabel(i+' :')
                     input=QLineEdit()
                     self.inputs[i]=(input,i)
@@ -96,7 +108,16 @@ class AddWindow(QWidget):
                 return ECL_thesis.getRestrictedValue() 
             case "Scientific_Reports":
                 return Scientific_Reports.getRestrictedValue()    
-    
+            case "Cost":
+                return cost.getRestrictedValue()  
+            case "Category":
+                return category.getRestrictedValue()   
+            case "User":
+                return user.getRestrictedValue()   
+            case "Lab":
+                return lab.getRestrictedValue() 
+            case "Keyword":
+                return keyword.getRestrictedValue()              
     '''add the row to the database and to the table'''
     
     def addRow(self):
@@ -142,8 +163,22 @@ class AddWindow(QWidget):
                 case "Scientific_Reports":
                     add_scientific_reports(valueDict["state"],valueDict["title"],valueDict["year_publication"])
                     self.Success_msg("ligne ajoutée avec succés")
-                    
-        except :
+                case "Cost":
+                    add_cost(valueDict["value"],valueDict["currancy"])
+                    self.Success_msg("ligne ajoutée avec succés")
+                case "Category":
+                    add_cat(valueDict["name_category"])
+                    self.Success_msg("ligne ajoutée avec succés")      
+                case "User":
+                    add_user(valueDict["email"])
+                    self.Success_msg("ligne ajoutée avec succés")  
+                case "Lab":
+                    add_lab(valueDict["lab_name"])
+                    self.Success_msg("ligne ajoutée avec succés") 
+                case "Keyword":
+                    add_keyword(valueDict["value"])
+                    self.Success_msg("ligne ajoutée avec succés")                                   
+        except Exception :
             self.close()
             self.Error_msg("Merci de verifier les contraintes d'ajout et les types des variables")      
         self.tableWidget.refreshTable()
@@ -177,3 +212,4 @@ class AddWindow(QWidget):
         msg.setInformativeText(txt)
         msg.setWindowTitle("Message d'erreur")
         msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec_()

@@ -5,6 +5,11 @@ from persistance.author import *
 from persistance.publication import *
 from services.publication_service import *
 from services.author_service import *
+from services.category_service import *
+from services.cost_service import *
+from services.user_service import *
+from services.lab_service import *
+from services.keyword_service import *
 class UpdateWindow(QWidget):
     table="Publication"
     tableWidget=None
@@ -98,7 +103,17 @@ class UpdateWindow(QWidget):
             case "ECL Thesis":
                 return ECL_thesis.getRestrictedValue() 
             case "Scientific_Reports":
-                return Scientific_Reports.getRestrictedValue()    
+                return Scientific_Reports.getRestrictedValue()  
+            case "Cost":
+                return cost.getRestrictedValue()              
+            case "Category":
+                return category.getRestrictedValue()  
+            case "User":
+                return user.getRestrictedValue()  
+            case "Lab":
+                return lab.getRestrictedValue()
+            case "Keyword":
+                return keyword.getRestrictedValue()             
     ''' fill the spaces with the existing values'''
     def fill(self):
         for i in list(self.inputs.keys()):
@@ -154,6 +169,21 @@ class UpdateWindow(QWidget):
                 case "Scientific_Reports":
                     update_scientific_report(valueDict,valueDict[list(valueDict.keys())[0]])
                     self.Success_msg("Modification effectué avec succés")  
+                case "Cost":
+                    update_cost(valueDict,valueDict[list(valueDict.keys())[0]])
+                    self.Success_msg("Modification effectué avec succés") 
+                case "Category":
+                    update_cat(valueDict,valueDict[list(valueDict.keys())[0]])
+                    self.Success_msg("Modification effectué avec succés")    
+                case "User":
+                    update_user(valueDict,valueDict[list(valueDict.keys())[0]])
+                    self.Success_msg("Modification effectué avec succés")   
+                case "Lab":
+                    update_lab(valueDict,valueDict[list(valueDict.keys())[0]])
+                    self.Success_msg("Modification effectué avec succés") 
+                case "Keyword":
+                    update_keyword(valueDict,valueDict[list(valueDict.keys())[0]])
+                    self.Success_msg("Modification effectué avec succés")                
         except:
             self.Error_msg("Echec au niveau de la modification") 
         self.tableWidget.refreshTable()
@@ -193,3 +223,4 @@ class UpdateWindow(QWidget):
         msg.setInformativeText(txt)
         msg.setWindowTitle("Message d'erreur")
         msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec_()

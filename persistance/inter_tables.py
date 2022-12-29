@@ -49,3 +49,43 @@ user_publication = Table(
  Column("user_id", ForeignKey("user.user_id")),
  Column("publication_id", ForeignKey("publication.publication_id")),
 )
+
+user_lab_auth = Table(
+ "user_lab_auth",
+ Base.metadata,
+ Column("id", Integer, primary_key=True),
+ Column("user_id", ForeignKey("user.user_id")),
+ Column("lab_id", ForeignKey("lab.lab_id")),
+)
+
+user_lab_notif = Table(
+ "user_lab_notif",
+ Base.metadata,
+ Column("id", Integer, primary_key=True),
+ Column("user_id", ForeignKey("user.user_id")),
+ Column("lab_id", ForeignKey("lab.lab_id")),
+)
+
+pub_lab_hascopy = Table(
+ "pub_lab_hascppy",
+ Base.metadata,
+ Column("id", Integer, primary_key=True),
+ Column("publication_id", ForeignKey("publication.publication_id")),
+ Column("lab_id", ForeignKey("lab.lab_id")),
+)
+
+keyword_user = Table(
+ "keyword_user",
+ Base.metadata,
+ Column("id", Integer, primary_key=True),
+ Column("key_id", ForeignKey("keyword.key_id")),
+ Column("user_id", ForeignKey("user.user_id")),
+)
+
+keyword_publication = Table(
+ "keyword_publication",
+ Base.metadata,
+ Column("id", Integer, primary_key=True),
+ Column("key_id", ForeignKey("keyword.key_id")),
+ Column("publication_id", ForeignKey("publication.publication_id")),
+)

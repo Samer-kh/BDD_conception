@@ -5,6 +5,11 @@ from persistance.author import *
 from persistance.publication import *
 from services.publication_service import *
 from services.author_service import *
+from services.category_service import *
+from services.cost_service import *
+from services.user_service import *
+from services.lab_service import *
+from services.keyword_service import *
 class DeleteWindow(QWidget):
     table="Publication"
     input=None
@@ -72,9 +77,24 @@ class DeleteWindow(QWidget):
                 case "Scientific_Reports":
                     delete_scientific_reports(value)
                     self.Success_msg("Ligne supprimé avec succés") 
+                case "Cost":
+                    delete_cost(value)
+                    self.Success_msg("Ligne supprimé avec succés")
+                case "Category":
+                    delete_cat(value)
+                    self.Success_msg("Ligne supprimé avec succés")
+                case "User":
+                    delete_user(value)
+                    self.Success_msg("Ligne supprimé avec succés")
+                case "Lab":
+                    delete_lab(value)
+                    self.Success_msg("Ligne supprimé avec succés")
+                case "Keyword":
+                    delete_keyword(value)
+                    self.Success_msg("Ligne supprimé avec succés")
             self.tableWidget.refreshTable()
-        except:
-            self.Error_msg("Merci de vérifier les contraites avant de supprimer")
+        except Exception:
+            self.Error_msg("Merci de vérifier les contraites ou l'identifiant avant de supprimer")
         self.tableWidget.refreshTable()
         self.close()
         
@@ -111,3 +131,4 @@ class DeleteWindow(QWidget):
         msg.setInformativeText(txt)
         msg.setWindowTitle("Message d'erreur")
         msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec_()

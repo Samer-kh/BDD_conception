@@ -5,42 +5,42 @@
 '''
 
 from persistance.inter_tables import *
-from persistance.user import *
+from persistance.keyword import *
 
-def get_users(id):
+def get_keyword(id):
         try:
-                return session.get(user, id)
+                return session.get(keyword, id)
         except Exception:
                 session.rollback()
                 raise Exception()
-def get_all_users():
+def get_all_keywords():
         try:
-                return session.query(user).all()
+                return session.query(keyword).all()
         except Exception:
                 session.rollback()
                 raise Exception()
-def add_user(email):
+def add_keyword(value):
         try:
-                users = user(email=email)
+                users = keyword(value=value)
                 session.add(users)
                 session.commit()
         except Exception:
                 session.rollback()
                 raise Exception()
 
-def delete_user(id):
+def delete_keyword(id):
         try:
-                user_to_delete = session.get(user, id)
-                session.delete(user_to_delete)
+                key_to_delete = session.get(keyword, id)
+                session.delete(key_to_delete)
                 session.commit()
         except Exception:
                 session.rollback()
                 raise Exception()
 
-def update_user(dict,id):
+def update_keyword(dict,id):
         try:
-                users = session.get(user, id)
-                users.email=dict["email"]
+                users = session.get(keyword, id)
+                users.value=dict["value"]
                 session.commit()
         except Exception:
                 session.rollback()

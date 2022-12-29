@@ -1,46 +1,46 @@
-''' this file contains the functions that handle all the operation related to the users
+''' this file contains the functions that handle all the operation related to the labs
     Operations supported : 
         add , modify , delete
 
 '''
 
 from persistance.inter_tables import *
-from persistance.user import *
+from persistance.Lab import *
 
-def get_users(id):
+def get_lab(id):
         try:
-                return session.get(user, id)
+                return session.get(lab, id)
         except Exception:
                 session.rollback()
                 raise Exception()
-def get_all_users():
+def get_all_labs():
         try:
-                return session.query(user).all()
+                return session.query(lab).all()
         except Exception:
                 session.rollback()
                 raise Exception()
-def add_user(email):
+def add_lab(lab_name):
         try:
-                users = user(email=email)
-                session.add(users)
+                labs = lab(lab_name=lab_name)
+                session.add(labs)
                 session.commit()
         except Exception:
                 session.rollback()
                 raise Exception()
 
-def delete_user(id):
+def delete_lab(id):
         try:
-                user_to_delete = session.get(user, id)
-                session.delete(user_to_delete)
+                lab_to_delete = session.get(lab, id)
+                session.delete(lab_to_delete)
                 session.commit()
         except Exception:
                 session.rollback()
                 raise Exception()
 
-def update_user(dict,id):
+def update_lab(dict,id):
         try:
-                users = session.get(user, id)
-                users.email=dict["email"]
+                labs = session.get(lab, id)
+                labs.lab_name=dict["lab_name"]
                 session.commit()
         except Exception:
                 session.rollback()

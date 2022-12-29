@@ -14,4 +14,12 @@ class cost(Base):
     }
     def __str__(self):
         return 'id : {} , value : {} , currancy : {}'.format(self.cost_id,self.value,self.currancy)
+    @staticmethod
+    def  getAttributes():
+        return {"cost_id":"int","value":"float","currancy":"restricted_values"}
     
+    '''get the allowed value for the columns with a check constraint'''
+    @staticmethod
+    def  getRestrictedValue():
+        return {"currancy":["Dollar", "Euro","Pound"]}   
+          
