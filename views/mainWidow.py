@@ -135,7 +135,10 @@ class GraphicalInterface(QMainWindow):
 
     '''Manage the table names '''       
     def setTableNames(self,box):
-        box.addItems(["Publication","Authers","Regular Books","Periodics","Internal Reports","ECL Thesis","Scientific_Reports","Cost","Category","User","Lab","Keyword"])
+        box.addItems(["Publication","Authers","Regular Books","Periodics","Internal Reports","ECL Thesis","Scientific_Reports","Cost","Category","User","Lab","Keyword","Exchange",
+                      "Relation scientific reports and authors" , "Relation regular books and authers", "Relation regular books and Categories" ,"Relation user and publication",
+                      "Relation user and lab - authentification","Relation user and lab - Notify" , "Relation publication and lab - has copy",
+                      "Relation keyword and user","Relation Keyword and publication"])
     
     '''show the chosen table'''
         
@@ -149,9 +152,13 @@ class GraphicalInterface(QMainWindow):
             self.Stacked_layout.itemAt(0).widget().setParent(None)
             self.widget=DatabaseTable(table)
             self.Stacked_layout.addWidget(self.widget)
-        self.Buttons[0].setEnabled(True)
-        self.Buttons[1].setEnabled(True)
-        self.Buttons[2].setEnabled(True)        
+        if (table in ["Publication","Authers","Regular Books","Periodics","Internal Reports","ECL Thesis","Scientific_Reports","Cost","Category","User","Lab","Keyword","Exchange"]):
+            self.Buttons[0].setEnabled(True)
+            self.Buttons[1].setEnabled(True)
+            self.Buttons[2].setEnabled(True)  
+        else:
+            self.Buttons[1].setEnabled(False)
+            self.Buttons[2].setEnabled(False)    
             
     def openAdditionTab(self):
         global addWindow
@@ -203,7 +210,27 @@ class GraphicalInterface(QMainWindow):
             case "Lab":
                 return lab.getAttributes() 
             case "Keyword":
-                return keyword.getAttributes()             
+                return keyword.getAttributes()   
+            case 'Exchange':
+                return exchange.getAttributes()   
+            case "Relation scientific reports and authors":
+                return {"id":"int","author_id":"int","Id_Report":"int"}
+            case "Relation regular books and authers":
+                return {"id":"int","author_id":"int","ISBN":"int"}
+            case "Relation regular books and Categories" :
+                return {"id":"int","ISBN":"int","Category_id":"int"}
+            case "Relation user and publication":
+                return {"id":"int","user_id":"int","publication_id":"int"}
+            case "Relation user and lab - authentification":
+                return {"id":"int","user_id":"int","lab_id":"int"}
+            case "Relation user and lab - Notify": 
+                return {"id":"int","user_id":"int","lab_id":"int"}
+            case "Relation publication and lab - has copy":
+                return {"id":"int","publication_id":"int","lab_id":"int"}
+            case "Relation keyword and user":
+                return {"id":"int","key_id":"int","user_id":"int"}
+            case "Relation Keyword and publication": 
+                return {"id":"int","key_id":"int","publication_id":"int"}         
     def getSpecialQueries(self):
         global queryWindow
         queryWindow=SpecialAdd(self,self.Buttons)     

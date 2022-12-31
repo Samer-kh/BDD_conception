@@ -16,4 +16,7 @@ def add_user_to_publication(id_pub,id_user):
     pub_effected.users.append(user_to_add)
     
     session.add(pub_effected)
-    session.commit()   
+    session.commit() 
+    
+def get_all_user_pub():
+    return session.query(user_publication).all()    

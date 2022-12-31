@@ -5,39 +5,39 @@
 '''
 
 from persistance.inter_tables import *
-from persistance.cost import *
+from persistance.exchange import *
 
-def get_cost(id):
+def get_echange(id):
         try:
-                return session.get(cost, id)
+                return session.get(exchange, id)
         except Exception:
                 session.rollback()
                 raise Exception()
-def get_all_costs():
-        return session.query(cost).all()
-def add_cost(value,currancy,id_echange):
+def get_all_exchange():
+        return session.query(exchange).all()
+def add_echange(euro_to_dollars,pound_to_dollars,euro_to_pounds):
         try:
-                costs = cost(value=value,currancy=currancy,id_echange=id_echange)
-                session.add(costs)
+                echanges = exchange(euro_to_dollar=euro_to_dollars,pound_to_dollar=pound_to_dollars,euro_to_pound=euro_to_pounds)
+                session.add(echanges)
                 session.commit()
         except Exception:
                 session.rollback()
                 raise Exception("cannot add the row")
 
-def delete_cost(id):
+def delete_echange(id):
         try:
-                cost_to_delete = session.get(cost, id)
+                cost_to_delete = session.get(exchange, id)
                 session.delete(cost_to_delete)
                 session.commit()
         except Exception:
                 session.rollback()
                 raise Exception("cannot delete the row")        
-def update_cost(dict,id):
+def update_echange(dict,id):
         try:
-                cost_to_update = session.get(cost, id)
-                cost_to_update.value=dict["value"]  
-                cost_to_update.currancy=dict["currancy"]
-                cost_to_update.id_echange=dict["id_echange"]
+                cost_to_update = session.get(exchange, id)
+                cost_to_update.euro_to_dollar=dict["euro_to_dollar"]  
+                cost_to_update.pound_to_dollar=dict["pound_to_dollar"]
+                cost_to_update.euro_to_pound=dict["euro_to_pound"]
                 session.commit()
         except Exception:
                 session.rollback()

@@ -16,4 +16,7 @@ def add_author_to_books(id_book,id_author):
     book_effected.authors_book.append(author_to_add)
     
     session.add(book_effected)
-    session.commit()   
+    session.commit()  
+    
+def get_all_auth_book():
+    return session.query(regular_books_author).all()  

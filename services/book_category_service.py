@@ -15,6 +15,8 @@ def add_category_to_book(id_book,id_category):
     book_effected = session.get(regular_books, id_book)
     category_to_add = session.get(category, id_category)
     book_effected.book_categories.append(category_to_add)
-    
     session.add(book_effected)
     session.commit()   
+    
+def get_all_cat_book():
+    return session.query(regular_books_category).all()  

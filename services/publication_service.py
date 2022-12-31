@@ -67,55 +67,55 @@ def get_scientific_reports_all():
 
 ''' services to add the different documents '''
 
-def add_publication(state,year_publications):
+def add_publication(state,year_publications,lab_id):
         try:
-                pub = publication(state=state,year_publication=year_publications)
+                pub = publication(state=state,year_publication=year_publications,lab_id=lab_id)
                 session.add(pub)
                 session.commit()
         except Exception:
                 session.rollback()
                 raise Exception()
 
-def add_regular_books(state,titles,publishers,editions,year_publications,book_shops,id_cost):
+def add_regular_books(state,titles,publishers,editions,year_publications,book_shops,id_cost,lab_id):
         try:
                 book = regular_books(state=state,title=titles,publisher=publishers,edition=editions,year_publication=year_publications,
-                                book_shop=book_shops,cost_id=id_cost)
+                                book_shop=book_shops,cost_id=id_cost,lab_id=lab_id)
                 session.add(book)
                 session.commit()
         except Exception:
                 session.rollback()
                 raise Exception()
-def add_periodics(state,volume,publisher,edition,year_publication,book_shop,id_cost):
+def add_periodics(state,volume,publisher,edition,year_publication,book_shop,id_cost,lab_id):
         try:
                 periodic = periodics(state=state,volume=volume,publisher=publisher,edition=edition,year_publication=year_publication,
-                                book_shop=book_shop,cost_id=id_cost)
+                                book_shop=book_shop,cost_id=id_cost,lab_id=lab_id)
                 session.add(periodic)
                 session.commit()
         except Exception:
                 session.rollback()
                 raise Exception()
     
-def add_internal_reports(state,title,publication_year):
+def add_internal_reports(state,title,publication_year,lab_id):
         try:
-                internal_report = internal_reports(state=state,title=title,year_publication=publication_year)
+                internal_report = internal_reports(state=state,title=title,year_publication=publication_year,lab_id=lab_id)
                 session.add(internal_report)
                 session.commit()
         except Exception:
                 session.rollback()
                 raise Exception()
         
-def add_ECL_thesis(state,title,authour_id,publication_year):
+def add_ECL_thesis(state,title,authour_id,publication_year,lab_id):
         try:
-                ecl_thesis = ECL_thesis(state=state,title=title,year_publication=publication_year,Author_id=authour_id)
+                ecl_thesis = ECL_thesis(state=state,title=title,year_publication=publication_year,Author_id=authour_id,lab_id=lab_id)
                 session.add(ecl_thesis)
                 session.commit()
         except Exception:
                 session.rollback()
                 raise Exception()
         
-def add_scientific_reports(state,title,publication_year):
+def add_scientific_reports(state,title,publication_year,lab_id):
         try:
-                scientific_report = Scientific_Reports(state=state,title=title,year_publication=publication_year)
+                scientific_report = Scientific_Reports(state=state,title=title,year_publication=publication_year,lab_id=lab_id)
                 session.add(scientific_report)
                 session.commit()
         except Exception:

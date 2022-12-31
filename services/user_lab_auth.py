@@ -16,4 +16,7 @@ def add_user_to_lab(id_lab,id_user):
     lab_effected.users_auth.append(user_to_add)
     
     session.add(lab_effected)
-    session.commit()   
+    session.commit()  
+    
+def get_all_user_lab_auth():
+    return session.query(user_lab_auth).all()  

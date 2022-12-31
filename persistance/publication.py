@@ -5,6 +5,7 @@ from persistance.cost import *
 from persistance.user import *
 from persistance.Lab import *
 from persistance.keyword import *
+from persistance.exchange import *
 class publication(Base):
     ''' implémentation de la classe mére relatif à la table publication'''
     __tablename__="publication"
@@ -50,7 +51,7 @@ class regular_books(publication):
     }
     @staticmethod
     def  getAttributes():
-        return {"ISBN":"int","title":"str","publisher":"str","edition":"str","book_shop":"str","cost_id":"int","year_publication":"date","state":"restricted_values"}
+        return {"ISBN":"int","title":"str","publisher":"str","edition":"str","book_shop":"str","cost_id":"int","year_publication":"date","state":"restricted_values","lab_id":"int"}
     
     '''get the allowed value for the columns with a check constraint'''
     @staticmethod
@@ -73,7 +74,7 @@ class periodics(publication):
     }   
     @staticmethod
     def  getAttributes():
-        return {"periodic_id":"int","volume":"int","publisher":"str","edition":"str","book_shop":"str","cost_id":"int","year_publication":"date","state":"restricted_values"}
+        return {"periodic_id":"int","volume":"int","publisher":"str","edition":"str","book_shop":"str","cost_id":"int","year_publication":"date","state":"restricted_values","lab_id":"int"}
     
     '''get the allowed value for the columns with a check constraint'''
     @staticmethod
@@ -91,7 +92,7 @@ class internal_reports(publication):
     
     @staticmethod
     def  getAttributes():
-        return {"report_id":"int","title":"str","year_publication":"date","state":"restricted_values"}
+        return {"report_id":"int","title":"str","year_publication":"date","state":"restricted_values","lab_id":"int"}
     
     '''get the allowed value for the columns with a check constraint'''
     @staticmethod
@@ -108,7 +109,7 @@ class ECL_thesis(internal_reports):
     } 
     @staticmethod
     def  getAttributes():
-        return {"Id_thesis":"int","title":"str","year_publication":"date","state":"restricted_values","Author_id":"int"}
+        return {"Id_thesis":"int","title":"str","year_publication":"date","state":"restricted_values","Author_id":"int","lab_id":"int"}
     
     '''get the allowed value for the columns with a check constraint'''
     @staticmethod
@@ -125,7 +126,7 @@ class Scientific_Reports(internal_reports):
     }   
     @staticmethod
     def  getAttributes():
-        return {"Id_Report":"int","title":"str","year_publication":"date","state":"restricted_values"}
+        return {"Id_Report":"int","title":"str","year_publication":"date","state":"restricted_values","lab_id":"int"}
     
     '''get the allowed value for the columns with a check constraint'''
     @staticmethod

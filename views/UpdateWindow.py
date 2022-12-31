@@ -10,6 +10,7 @@ from services.cost_service import *
 from services.user_service import *
 from services.lab_service import *
 from services.keyword_service import *
+from services.echange_service import *
 class UpdateWindow(QWidget):
     table="Publication"
     tableWidget=None
@@ -42,6 +43,13 @@ class UpdateWindow(QWidget):
         for i in list(self.Attributes.keys()):
             match self.Attributes[i]:
                 case "int":
+                    label_add=QLabel(i+' :')
+                    input=QLineEdit()
+                    self.inputs[i]=(input,i)
+                    Layout.addWidget(label_add,self.itemNumber,0,1,2)
+                    Layout.addWidget(input,self.itemNumber,2,1,4)
+                    self.itemNumber+=1
+                case "float":
                     label_add=QLabel(i+' :')
                     input=QLineEdit()
                     self.inputs[i]=(input,i)
@@ -113,7 +121,9 @@ class UpdateWindow(QWidget):
             case "Lab":
                 return lab.getRestrictedValue()
             case "Keyword":
-                return keyword.getRestrictedValue()             
+                return keyword.getRestrictedValue()   
+            case "Exchange":
+                return exchange.getRestrictedValue()            
     ''' fill the spaces with the existing values'''
     def fill(self):
         for i in list(self.inputs.keys()):
@@ -183,7 +193,10 @@ class UpdateWindow(QWidget):
                     self.Success_msg("Modification effectué avec succés") 
                 case "Keyword":
                     update_keyword(valueDict,valueDict[list(valueDict.keys())[0]])
-                    self.Success_msg("Modification effectué avec succés")                
+                    self.Success_msg("Modification effectué avec succés")    
+                case "Exchange":
+                    update_echange(valueDict,valueDict[list(valueDict.keys())[0]])
+                    self.Success_msg("Modification effectué avec succés")              
         except:
             self.Error_msg("Echec au niveau de la modification") 
         self.tableWidget.refreshTable()

@@ -17,3 +17,6 @@ def add_user_to_key(id_key,id_user):
     
     session.add(key_effected)
     session.commit()   
+    
+def get_all_key_user():
+    return session.query(keyword_user).all()  

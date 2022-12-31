@@ -17,3 +17,6 @@ def add_pub_to_key(id_key,id_pub):
     
     session.add(key_effected)
     session.commit()   
+    
+def get_all_key_pub():
+    return session.query(keyword_publication).all()  

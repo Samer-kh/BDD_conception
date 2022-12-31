@@ -38,7 +38,7 @@ regular_books_category = Table(
  "regular_books_category",
  Base.metadata,
  Column("id", Integer, primary_key=True),
- Column("author_id", ForeignKey("regularbooks.ISBN")),
+ Column("ISBN", ForeignKey("regularbooks.ISBN")),
  Column("Category_id", ForeignKey("categories.Category_id")),
 )
 
@@ -89,3 +89,4 @@ keyword_publication = Table(
  Column("key_id", ForeignKey("keyword.key_id")),
  Column("publication_id", ForeignKey("publication.publication_id")),
 )
+

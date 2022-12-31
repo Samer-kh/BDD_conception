@@ -16,4 +16,7 @@ def add_author_to_scientifics(id_scientific,id_author):
     scientific_effected.authors.append(author_to_add)
     
     session.add(scientific_effected)
-    session.commit()   
+    session.commit() 
+
+def get_all_auth_sci():
+    return session.query(scientific_author).all()  

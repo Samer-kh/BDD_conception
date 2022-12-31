@@ -10,6 +10,7 @@ from services.cost_service import *
 from services.user_service import *
 from services.lab_service import *
 from services.keyword_service import *
+from services.echange_service import *
 class DeleteWindow(QWidget):
     table="Publication"
     input=None
@@ -91,6 +92,9 @@ class DeleteWindow(QWidget):
                     self.Success_msg("Ligne supprimé avec succés")
                 case "Keyword":
                     delete_keyword(value)
+                    self.Success_msg("Ligne supprimé avec succés")
+                case "Exchange":
+                    delete_echange(value)
                     self.Success_msg("Ligne supprimé avec succés")
             self.tableWidget.refreshTable()
         except Exception:

@@ -10,6 +10,17 @@ from services.cost_service import *
 from services.user_service import *
 from services.lab_service import *
 from services.keyword_service import *
+from services.author_scientific_service import *
+from services.author_book_service import *
+from services.book_category_service import *
+from services.keyword_publication import *
+from services.keyword_user import *
+from services.pub_lab_hascopy import *
+from services.user_lab_auth import *
+from services.user_lab_notif import *
+from services.user_publication_service import *
+from services.echange_service import *
+
 class AddWindow(QWidget):
     table="Publication"
     tableWidget=None
@@ -117,7 +128,9 @@ class AddWindow(QWidget):
             case "Lab":
                 return lab.getRestrictedValue() 
             case "Keyword":
-                return keyword.getRestrictedValue()              
+                return keyword.getRestrictedValue()
+            case other:
+                return {}              
     '''add the row to the database and to the table'''
     
     def addRow(self):
@@ -141,30 +154,33 @@ class AddWindow(QWidget):
         try:
             match self.table:
                 case "Publication":
-                    add_publication(valueDict["state"],valueDict["year_publication"])
+                    add_publication(valueDict["state"],valueDict["year_publication"],valueDict["lab_id"])
                     self.Success_msg("ligne ajoutée avec succés")
                 case "Authers":
                     add_authors(valueDict["name"])
                     self.Success_msg("ligne ajoutée avec succés")
                 case "Regular Books":
                     add_regular_books(valueDict["state"],valueDict["title"],valueDict["publisher"],valueDict["edition"]
-                          ,valueDict["year_publication"],valueDict["book_shop"],valueDict["cost_id"])
+                          ,valueDict["year_publication"],valueDict["book_shop"],valueDict["cost_id"],valueDict["lab_id"])
                     self.Success_msg("ligne ajoutée avec succés") 
                 case "Periodics":
                     add_periodics(valueDict["state"],valueDict["volume"],valueDict["publisher"],valueDict["edition"]
-                          ,valueDict["year_publication"],valueDict["book_shop"],valueDict["cost_id"])
+                          ,valueDict["year_publication"],valueDict["book_shop"],valueDict["cost_id"],valueDict["lab_id"])
                     self.Success_msg("ligne ajoutée avec succés") 
                 case "Internal Reports":
-                    add_internal_reports(valueDict["state"],valueDict["title"],valueDict["year_publication"])
+                    add_internal_reports(valueDict["state"],valueDict["title"],valueDict["year_publication"],valueDict["lab_id"])
                     self.Success_msg("ligne ajoutée avec succés")
                 case "ECL Thesis":
-                    add_ECL_thesis(valueDict["state"],valueDict["title"],valueDict["Author_id"],valueDict["year_publication"])
+                    add_ECL_thesis(valueDict["state"],valueDict["title"],valueDict["Author_id"],valueDict["year_publication"],valueDict["lab_id"])
                     self.Success_msg("ligne ajoutée avec succés") 
                 case "Scientific_Reports":
-                    add_scientific_reports(valueDict["state"],valueDict["title"],valueDict["year_publication"])
+                    add_scientific_reports(valueDict["state"],valueDict["title"],valueDict["year_publication"],valueDict["lab_id"])
                     self.Success_msg("ligne ajoutée avec succés")
                 case "Cost":
-                    add_cost(valueDict["value"],valueDict["currancy"])
+                    add_cost(valueDict["value"],valueDict["currancy"],valueDict["id_echange"])
+                    self.Success_msg("ligne ajoutée avec succés")
+                case "Exchange":
+                    add_echange(valueDict["euro_to_dollar"],valueDict["pound_to_dollar"],valueDict["euro_to_pound"])
                     self.Success_msg("ligne ajoutée avec succés")
                 case "Category":
                     add_cat(valueDict["name_category"])
@@ -177,7 +193,55 @@ class AddWindow(QWidget):
                     self.Success_msg("ligne ajoutée avec succés") 
                 case "Keyword":
                     add_keyword(valueDict["value"])
-                    self.Success_msg("ligne ajoutée avec succés")                                   
+                    self.Success_msg("ligne ajoutée avec succés") 
+                    
+                case "Relation scientific reports and authors":
+                    add_author_to_scientifics(valueDict["Id_Report"],valueDict["author_id"])
+                    add_scientific_to_authors(valueDict["Id_Report"],valueDict["author_id"])
+                    add_keyword(valueDict["value"])
+                    self.Success_msg("ligne ajoutée avec succés") 
+                    
+                case "Relation regular books and authers":
+                    add_author_to_books(valueDict["ISBN"],valueDict["author_id"])
+                    add_books_to_authors(valueDict["ISBN"],valueDict["author_id"])
+                    self.Success_msg("ligne ajoutée avec succés") 
+                    
+                case "Relation regular books and Categories" :
+                    print(valueDict)
+                    add_book_to_category((valueDict["ISBN"],valueDict["Category_id"]))
+                    add_category_to_book((valueDict["ISBN"],valueDict["Category_id"]))
+                    self.Success_msg("ligne ajoutée avec succés") 
+
+                case "Relation user and publication":
+                    add_user_to_publication(valueDict["publication_id"],valueDict["user_id"])
+                    add_publication_to_users(valueDict["publication_id"],valueDict["user_id"])
+                    self.Success_msg("ligne ajoutée avec succés")
+                    
+                case "Relation user and lab - authentification":
+                    add_user_to_lab(valueDict["lab_id"],valueDict["user_id"])
+                    add_Lab_to_users(valueDict["lab_id"],valueDict["user_id"])
+                    self.Success_msg("ligne ajoutée avec succés") 
+                    
+                case "Relation user and lab - Notify": 
+                    add_Lab_to_users_notif(valueDict["lab_id"],valueDict["user_id"])
+                    add_user_to_lab_notif(valueDict["lab_id"],valueDict["user_id"])
+                    self.Success_msg("ligne ajoutée avec succés") 
+                    
+                case "Relation publication and lab - has copy":
+                    add_pub_to_lab(valueDict["publication_id"],valueDict["lab_id"])
+                    add_lab_to_pub(valueDict["publication_id"],valueDict["lab_id"])
+                    self.Success_msg("ligne ajoutée avec succés") 
+                    
+                case "Relation keyword and user":
+                    add_key_to_users_(valueDict["key_id"],valueDict["user_id"])
+                    add_user_to_key(valueDict["key_id"],valueDict["user_id"])
+                    self.Success_msg("ligne ajoutée avec succés") 
+                    
+                case "Relation Keyword and publication": 
+                    add_pub_to_key(valueDict["key_id"],valueDict["publication_id"])
+                    add_key_to_pub(valueDict["key_id"],valueDict["publication_id"])
+                    self.Success_msg("ligne ajoutée avec succés")  
+                                                     
         except Exception :
             self.close()
             self.Error_msg("Merci de verifier les contraintes d'ajout et les types des variables")      

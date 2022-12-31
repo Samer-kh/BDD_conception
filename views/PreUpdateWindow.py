@@ -9,6 +9,7 @@ from views.UpdateWindow import *
 from services.user_service import *
 from services.lab_service import *
 from services.keyword_service import *
+from services.echange_service import *
 class PreUpdateWindow(QWidget):
     table="Publication"
     input=None
@@ -101,6 +102,12 @@ class PreUpdateWindow(QWidget):
                 case "Cost":
                     cost=get_cost(value)
                     updateWindow=UpdateWindow(self.table,self.Attributes,self.tableWidget,cost)
+                    self.updateWindow=updateWindow      
+                    updateWindow.show()
+                    self.close()
+                case "Exchange":
+                    ex=get_echange(value)
+                    updateWindow=UpdateWindow(self.table,self.Attributes,self.tableWidget,ex)
                     self.updateWindow=updateWindow      
                     updateWindow.show()
                     self.close()
