@@ -9,10 +9,8 @@ def execute_query_one():
         query='SELECT DISTINCT * FROM publication'
         keys=list(con.execute(query).keys())
         rs = con.execute(query)
-        print(keys)
         for row in rs:
             rows.append(row)
-        print(rows)
         return (rows,keys)
     
 
@@ -27,10 +25,8 @@ def execute_query_two(user_id,lab_id):
             query='SELECT p.publication_id , year_publication , state FROM user_publication u , publication p where p.publication_id=u.publication_id and u.user_id={}'.format(user_id)
             keys=list(con.execute(query).keys())
             rs = con.execute(query)
-            print(keys)
             for row in rs:
                 rows.append(row)
-            print(rows)
             return (rows,keys)
     else:
         with engine.connect() as con:
@@ -38,10 +34,8 @@ def execute_query_two(user_id,lab_id):
             query="SELECT p.publication_id , year_publication , state FROM user_publication u , publication p , pub_lab_hascppy c where p.publication_id=u.publication_id and u.user_id= {} and c.lab_id = {}".format(user_id,lab_id)
             keys=list(con.execute(query).keys())
             rs = con.execute(query)
-            print(keys)
             for row in rs:
                 rows.append(row)
-            print(rows)
             return (rows,keys)
         
 ''' Evaluate the price of all publications owned by a particular lab in €. (at the running rate
@@ -60,10 +54,8 @@ def execute_query_three(lab_id):
               ) as total'''.format(lab_id,lab_id,lab_id,lab_id,lab_id,lab_id)
         keys=list(con.execute(query).keys())
         rs = con.execute(query)
-        print(keys)
         for row in rs:
             rows.append(row)
-        print(rows)
         return (rows,keys)
     
 ''' For a given user, evaluate whether (s)he can borrow a particular publication at a given
@@ -73,15 +65,39 @@ def execute_query_four(user_id,pub_id):
 
     with engine.connect() as con:
         rows=[]
-        query=" select user_id from user u, publication p where u.user_id= {} and p.state='On rack' and {} in ( select user_id from user_lab_auth a where a.lab_id=p.lab_id )".format(user_id,pub_id)
+        query='''SELECT 
+    CASE WHEN EXISTS  
+    (( SELECT * from user u , publication p , user_lab_auth l WHERE
+    u.user_id=l.user_id and p.lab_id=l.lab_id and p.state='On Rack' and u.user_id='{}'
+    and p.publication_id='{}' ) UNION (select * from user u , publication p , user_lab_auth l ,lab b, pub_lab_hascppy c 
+    where u.user_id=l.user_id and b.lab_id=c.lab_id and p.publication_id=c.publication_id and p.state='On Rack' 
+    and u.user_id='{}' and p.publication_id='{}'  )   ) THEN 'TRUE'
+    ELSE 'FALSE'
+END'''.format(user_id,pub_id,user_id,pub_id)
         keys=list(con.execute(query).keys())
         rs = con.execute(query)
-        print(keys)
+        keys=["Exists"]
         for row in rs:
             rows.append(row)
-        print(rows)
         return (rows,keys)
-    
+ 
+''' If there is a publication such that a particular user has rights to borrow it (a copy), but it
+is (all copies for which the user has rights are) issued to some one else then show the
+email address(es) of all those users who presently have a borrowed copy of the
+publication that this user has also right to borrow.'''    
+
+def execute_query_five(user_id,pub_id):
+
+    with engine.connect() as con:
+        rows=[]
+        query=''' '''
+        keys=list(con.execute(query).keys())
+        rs = con.execute(query)
+        keys=["Exists"]
+        for row in rs:
+            rows.append(row)
+        return (rows,keys) 
+ 
     
 '''  List all publication belonging to a particular category, and costing less than a particular
      amount.'''
@@ -94,10 +110,8 @@ def execute_query_six(id_cat,amount):
         '''.format(amount,id_cat)
         keys=list(con.execute(query).keys())
         rs = con.execute(query)
-        print(keys)
         for row in rs:
             rows.append(row)
-        print(rows)
         return (rows,keys)
     
 '''  List all publications authored by a particular author, and published after a particular year'''
@@ -117,10 +131,8 @@ def execute_query_seven(year,id_auth):
         '''.format(id_auth,year,id_auth,year,id_auth,year)
         keys=list(con.execute(query).keys())
         rs = con.execute(query)
-        print(keys)
         for row in rs:
             rows.append(row)
-        print(rows)
         return (rows,keys)
 
 def execute_query_eight(pub):
@@ -132,10 +144,8 @@ def execute_query_eight(pub):
         '''.format(pub)
         keys=list(con.execute(query).keys())
         rs = con.execute(query)
-        print(keys)
         for row in rs:
             rows.append(row)
-        print(rows)
         return (rows,keys)
     
 ''' List all lost regular books (title, publisher, ISBN) along with owner and price, sorting
@@ -150,8 +160,6 @@ def execute_query_nine():
         '''
         keys=list(con.execute(query).keys())
         rs = con.execute(query)
-        print(keys)
         for row in rs:
             rows.append(row)
-        print(rows)
         return (rows,keys)

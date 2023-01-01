@@ -211,12 +211,13 @@ def update_periodic(dict,id):
                 periodic_to_update = session.get(periodics, id)
                 periodic_to_update.year_publication = dict["year_publication"]
                 periodic_to_update.state = dict["state"]
-                periodic_to_update.ISBN = dict["ISBN"]
+                periodic_to_update.periodic_id = dict["periodic_id"]
                 periodic_to_update.volume = dict["volume"]
                 periodic_to_update.publisher = dict["publisher"]
                 periodic_to_update.edition = dict["edition"]
                 periodic_to_update.book_shop = dict["book_shop"]
                 periodic_to_update.cost_id = dict["cost_id"]
+                periodic_to_update.lab_id = dict["lab_id"]
                 session.commit()
         except Exception:
                 session.rollback()

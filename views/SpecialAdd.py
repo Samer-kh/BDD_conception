@@ -15,6 +15,7 @@ from views.getLab import *
 from views.AmountAndCat import *
 from views.YearAndAuth import *
 from views.getPublisher import *
+from views.getUserAndPub import *
 class SpecialAdd(QWidget):
     table="Publication"
     mainWidget=None
@@ -117,7 +118,9 @@ publication that this user has also right to borrow''')
                 getLab=GetLab(self.mainWidget,self.Buttons)
                 getLab.show() 
             case 3:
-                pass
+                global getUserAndpub
+                getUserAndpub=GetUserAndPub(self.mainWidget,self.Buttons)
+                getUserAndpub.show() 
             case 4:
                 pass
             case 5:
