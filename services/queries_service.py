@@ -81,3 +81,77 @@ def execute_query_four(user_id,pub_id):
             rows.append(row)
         print(rows)
         return (rows,keys)
+    
+    
+'''  List all publication belonging to a particular category, and costing less than a particular
+     amount.'''
+def execute_query_six(id_cat,amount):
+
+    with engine.connect() as con:
+        rows=[]
+        query='''select * from regularbooks b , categories c , cost o , regular_books_category e where b.ISBN=e.ISBN and 
+        e.Category_id=c.Category_id and b.cost_id=o.cost_id and o.value < {} and c.Category_id = {}
+        '''.format(amount,id_cat)
+        keys=list(con.execute(query).keys())
+        rs = con.execute(query)
+        print(keys)
+        for row in rs:
+            rows.append(row)
+        print(rows)
+        return (rows,keys)
+    
+'''  List all publications authored by a particular author, and published after a particular year'''
+
+def execute_query_seven(year,id_auth):
+
+    with engine.connect() as con:
+        rows=[]
+        query=''' (select p.publication_id as ID from regularbooks b , publication p , author a , regular_books_author r where r.ISBN=b.ISBN and a.author_id = r.author_id
+        and p.publication_id=b.ISBN and a.author_id = {} and p.year_publication > DATE '{}')
+        UNION (select publication_id  from ecl_thesis t ,internal_reports e, publication p where 
+        p.publication_id=e.report_id and e.report_id=t.Id_thesis  and t.Author_id = '{}' and p.year_publication > DATE '{}')
+        UNION (select publication_id  from scientific_reports t ,internal_reports e, publication p , scientific_author s ,author a where 
+        p.publication_id=e.report_id and e.report_id=t.Id_Report and 
+        s.Id_Report=t.Id_Report and a.author_id=s.author_id and
+        a.Author_id = '{}' and p.year_publication > DATE '{}')
+        '''.format(id_auth,year,id_auth,year,id_auth,year)
+        keys=list(con.execute(query).keys())
+        rs = con.execute(query)
+        print(keys)
+        for row in rs:
+            rows.append(row)
+        print(rows)
+        return (rows,keys)
+
+def execute_query_eight(pub):
+
+    with engine.connect() as con:
+        rows=[]
+        query=''' select * from regularbooks b , publication p  where p.publication_id=b.ISBN  and b.publisher='{}' 
+        order by p.year_publication
+        '''.format(pub)
+        keys=list(con.execute(query).keys())
+        rs = con.execute(query)
+        print(keys)
+        for row in rs:
+            rows.append(row)
+        print(rows)
+        return (rows,keys)
+    
+''' List all lost regular books (title, publisher, ISBN) along with owner and price, sorting
+    them according to owner, and then ISBN.'''
+    
+def execute_query_nine():
+
+    with engine.connect() as con:
+        rows=[]
+        query=''' SELECT b.ISBN ,b.title , b.publisher , u.email , c.value ,c.currancy  FROM publication p , regularbooks b ,user u , user_publication e ,cost c where p.publication_id=b.ISBN and p.state='Lost' and 
+                  c.cost_id = b.cost_id and e.publication_id=p.publication_id and u.user_id=e.user_id order by u.email , b.ISBN
+        '''
+        keys=list(con.execute(query).keys())
+        rs = con.execute(query)
+        print(keys)
+        for row in rs:
+            rows.append(row)
+        print(rows)
+        return (rows,keys)

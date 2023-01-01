@@ -12,6 +12,9 @@ from services.queries_service import *
 from views.queryTable import *
 from views.getUserandLab import *
 from views.getLab import *
+from views.AmountAndCat import *
+from views.YearAndAuth import *
+from views.getPublisher import *
 class SpecialAdd(QWidget):
     table="Publication"
     mainWidget=None
@@ -27,14 +30,15 @@ class SpecialAdd(QWidget):
         
         '''Prepare the list'''
         self.listQueries=myListWidget()
-        self.listQueries.addItem("All the publications registered in the library system")
-        self.listQueries.addItem("Publications issued to a user and owned by any lab ")
-        self.listQueries.addItem("Price of all publications owned")
-        self.listQueries.addItem("evaluatation")
-        self.listQueries.addItem("Users with a borrowed copy")
-        self.listQueries.addItem("Publications authored by a particular author")
-        self.listQueries.addItem("list of “books published”")
-        self.listQueries.addItem("lost regular books ")
+        self.listQueries.addItem("Query One ")
+        self.listQueries.addItem("Query Two ")
+        self.listQueries.addItem("Query Three ")
+        self.listQueries.addItem("Query Four ")
+        self.listQueries.addItem("Query Five ")
+        self.listQueries.addItem("Query Six ")
+        self.listQueries.addItem("Query Seven ")
+        self.listQueries.addItem("Query Eight ")
+        self.listQueries.addItem("Query Nine ")
         self.listQueries.itemDoubleClicked.connect(self.Clicked)
         
         
@@ -67,15 +71,28 @@ class SpecialAdd(QWidget):
                 QMessageBox.information(self, "Query Three", "Evaluate the price of all publications owned by a particular lab in €. (at the running rate of other currencies)")
          
             case 3:
-                pass
+                 QMessageBox.information(self, "Query Three", '''For a given user, evaluate whether (s)he can borrow a particular publication at a given
+time. (will depend on the availability status and the accessrights''')
+         
             case 4:
-                pass
+                     QMessageBox.information(self, "Query six", '''if there is a publication such that a particular user has rights to borrow it (a copy), but it
+is (all copies for which the user has rights are) issued to some one else then show the
+email address(es) of all those users who presently have a borrowed copy of the
+publication that this user has also right to borrow''')
+            
+                
             case 5:
-                pass
+                  QMessageBox.information(self, "Query six", " List all publication belonging to a particular category, and costing less than a particular amount.")
             case 6:
-                pass
+                QMessageBox.information(self, "Query six", "  List all publications authored by a particular author, and published after a particular year")
+         
             case 7:
-                pass
+                QMessageBox.information(self, "Query six", "  For a given publisher, prepare a list of “books published” chronologically ")
+         
+                 
+            case 8 :
+                QMessageBox.information(self, "Query six", "  List all lost regular books (title, publisher, ISBN) along with owner and price, sorting them according to owner, and then ISBN. ")
+         
         
         
       
@@ -104,11 +121,26 @@ class SpecialAdd(QWidget):
             case 4:
                 pass
             case 5:
-                pass
+                global getAmountAndCat
+                getAmountAndCat=AmountAndCat(self.mainWidget,self.Buttons)
+                getAmountAndCat.show() 
             case 6:
-                pass
+                global getYearandAuth
+                getYearandAuth=YearAndAuth(self.mainWidget,self.Buttons)
+                getYearandAuth.show() 
             case 7:
-                pass
+                global getPublishers
+                getPublishers=GetPublisher(self.mainWidget,self.Buttons)
+                getPublishers.show() 
+            case 8 : 
+                (rows,keys)=execute_query_nine()
+                newTable=QueryTable(rows,keys)
+                self.mainWidget.Stacked_layout.itemAt(0).widget().setParent(None)
+                self.mainWidget.widget=newTable
+                self.mainWidget.Stacked_layout.addWidget(self.mainWidget.widget)
+                self.Buttons[0].setEnabled(False)
+                self.Buttons[1].setEnabled(False)
+                self.Buttons[2].setEnabled(False)
         
         
         
