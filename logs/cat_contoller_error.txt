@@ -1,5 +1,0 @@
-
- Could not determine join condition between parent/child tables on relationship category.books - there are no foreign keys linking these tables via secondary table 'regular_books_category'.  Ensure that referencing columns are associated with a ForeignKey or ForeignKeyConstraint, or specify 'primaryjoin' and 'secondaryjoin' expressions.
- relationship 'books' expects a class or a mapper argument (received: <class 'sqlalchemy.sql.schema.Table'>)
- Could not determine join condition between parent/child tables on relationship category.books - there are no foreign keys linking these tables via secondary table 'regular_books_category'.  Ensure that referencing columns are associated with a ForeignKey or ForeignKeyConstraint, or specify 'primaryjoin' and 'secondaryjoin' expressions.
- add_cost() takes 0 positional arguments but 2 were given

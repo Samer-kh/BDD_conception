@@ -1,6 +1,0 @@
-
- could not convert string to float: 'samerkhidri@gmail.com'
- (MySQLdb.ProgrammingError) (1146, "Table 'bibliotheque.user' doesn't exist")
-[SQL: INSERT INTO user (email) VALUES (%s)]
-[parameters: ('samerkhidri@gmail.com',)]
-(Background on this error at: https://sqlalche.me/e/14/f405)
